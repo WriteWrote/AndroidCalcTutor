@@ -167,29 +167,30 @@ public class MainActivity extends AppCompatActivity {
             @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View view) {
-                String log = "";
-                Integer value = numbersList.remove(0);
-                log+=value.toString() + " ";
-                for (int i = 0; i < operators.size(); i++) {
-                    // it could be not if-else, but it's simplest thing I could manage fast
-                    if (operators.get(i).equals("+")) {
-                        value += numbersList.remove(i + 1);
-                        log+= "-> " + value.toString();
+                try {
+                    Integer value = numbersList.get(0);
+
+                    for (int i = 0; i < operators.size(); i++) {
+                        // it could be not if-else, but it's simplest thing I could manage fast
+                        if (operators.get(i).equals("+")) {
+                            value += numbersList.get(i + 1);
+                        } else if (operators.get(i).equals("-")) {
+                            value -= numbersList.get(i + 1);
+                        } else if (operators.get(i).equals("*")) {
+                            value *= numbersList.get(i + 1);
+                        } else {
+                            if (numbersList.get(i + 1) != 0) {
+                                value /= numbersList.get(i + 1);
+                            } else {
+                                numField.setText("00000000000000");
+                            }
+                        }
                     }
-//                    else if (operators.get(i).equals("-")) {
-//                        value -= numbersList.remove(i + 1);
-//                    } else if (operators.get(i).equals("*")) {
-//                        value *= numbersList.remove(i + 1);
-//                    } else {
-//                        if (numbersList.get(i + 1) != 0) {
-//                            value /= numbersList.remove(i + 1);
-//                        }else {
-//                            numField.setText("00000000000000");
-//                        }
-//                    }
+
+                    numField.setText(value.toString());
+                } catch (Exception ex){
+                    // pass
                 }
-                Toast.makeText(MainActivity.this, log, Toast.LENGTH_LONG).show();
-                numField.setText(value.toString());
                 numbersList.clear();
                 operators.clear();
                 currNum = "";
