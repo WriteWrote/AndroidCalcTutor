@@ -14,7 +14,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private List<Integer> numbersList;
+    private List<Double> numbersList;
     private List<String> operators;
     private String currNum;
     private Boolean newTask;
@@ -168,7 +168,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 try {
-                    Integer value = numbersList.get(0);
+                    numbersList.add(Double.parseDouble(numField.getText().toString()));
+
+                    Double value = numbersList.get(0);
 
                     for (int i = 0; i < operators.size(); i++) {
                         // it could be not if-else, but it's simplest thing I could manage fast
@@ -182,18 +184,18 @@ public class MainActivity extends AppCompatActivity {
                             if (numbersList.get(i + 1) != 0) {
                                 value /= numbersList.get(i + 1);
                             } else {
-                                numField.setText("00000000000000");
+                               value = -1.;
                             }
                         }
                     }
 
                     numField.setText(value.toString());
-                } catch (Exception ex){
+                } catch (Exception ex) {
                     // pass
                 }
                 numbersList.clear();
                 operators.clear();
-                currNum = "";
+                //currNum = "";
                 newTask = true;
             }
         });
@@ -201,8 +203,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setNumDigit(Integer digit) {
-        if (newTask){
+        if (newTask) {
             numField.setText("");
+            currNum = "";
         }
         newTask = false;
         currNum += digit.toString();
@@ -210,7 +213,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setOperator(String oper) {
-        numbersList.add(Integer.parseInt(numField.getText().toString()));
+        numbersList.add(Double.parseDouble(numField.getText().toString()));
         operators.add(oper);
         currNum = "";
     }
